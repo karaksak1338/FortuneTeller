@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { TRANSLATIONS } from '../services/translations';
 import { supabase } from '../services/supabase';
 import { useAuth } from './AuthContext';
+import { logger } from '../services/logger';
 
 const FortuneContext = createContext();
 
@@ -96,7 +97,7 @@ export const FortuneProvider = ({ children }) => {
 
                 if (error) throw error;
             } catch (err) {
-                console.error("Failed to sync fortune to Supabase:", err.message);
+                logger.error("Failed to sync fortune to Supabase:", err.message);
             }
         }
     };

@@ -54,7 +54,7 @@ const AppContent = () => {
         return <Navigate to="/onboarding" replace />;
     }
 
-    const showHeader = user && isActuallyOnboarded && !['/onboarding', '/reset-password'].includes(location.pathname);
+    const showHeader = user && isActuallyOnboarded && ['/home', '/history', '/account'].includes(location.pathname);
 
     return (
         <div className="app-container">
@@ -131,7 +131,7 @@ const AppContent = () => {
             </main>
 
             <footer className="main-footer">
-                &copy; 2026 {t.common?.appName || 'MysticFortuneTeller'} • {t.footer || 'Developed with Magic'}
+                &copy; 2026 {t.common?.appName || 'MysticFortuneTeller'} - {t.footer || 'Developed with Magic'}
             </footer>
         </div>
     );

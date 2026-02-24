@@ -50,9 +50,9 @@ body {
 
 .header-actions {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 0.8rem;
+    gap: 1.5rem;
 }
 
 .lang-switcher-select {
@@ -136,6 +136,31 @@ body {
 
 .mystic-glow {
     text-shadow: var(--glow-purple);
+}
+
+.auth-nav-btn {
+    background: none;
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    padding: 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-nav-btn:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    background: rgba(201, 168, 106, 0.1);
+}
+
+.auth-nav-btn.logout:hover {
+    color: #ef4444;
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
 }
 
 .gold-text {

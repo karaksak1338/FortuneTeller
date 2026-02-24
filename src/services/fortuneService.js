@@ -1,12 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { fallbackManager } from './fallbackManager';
 import { TRANSLATIONS } from './translations';
+import { logger } from './logger';
 
 // Initialize Gemini AI
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY?.trim();
 
 if (!API_KEY) {
-    console.warn("⚠️ Gemini API Key is not configured. Falling back to mystical intuition (offline mode).");
+    logger.warn("⚠️ Gemini API Key is not configured. Falling back to mystical intuition (offline mode).");
 }
 
 const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
@@ -99,7 +100,7 @@ export const generateAIFortune = async ({ type, input, image, lang = 'en', perso
                 return text;
             }
         } catch (error) {
-            console.error("AI Generation Error:", error.message);
+            logger.error("AI Generation Error:", error.message);
         }
     }
 
