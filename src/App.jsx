@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
 import { Sparkles, Home as HomeIcon, History as HistoryIcon, User, LogOut } from 'lucide-react';
 import { useFortune } from './context/FortuneContext';
 import { useAuth } from './context/AuthContext';
@@ -8,14 +8,14 @@ import Home from './components/Home/Home';
 import History from './components/History/History';
 import AuthModal from './components/Auth/AuthModal';
 
-const App = () => {
+const AppContent = () => {
     const { userData, t, updateUserData } = useFortune();
     const { user, signOut } = useAuth();
     const location = useLocation();
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
     // If onboarding not completed, redirect to onboarding (except if already there)
-    const showOnboarding = !userData.onboardingCompleted && location.pathname !== '/onboarding';
+    const showOnboarding = !userData.onboarded && location.pathname !== '/onboarding';
 
     return (
         <div className="app-container">
@@ -63,7 +63,7 @@ const App = () => {
                 <Routes>
                     <Route
                         path="/"
-                        element={userData.onboardingCompleted ? <Navigate to="/home" /> : <Onboarding />}
+                        element={userData.onboarded ? <Navigate to="/home" /> : <Onboarding />}
                     />
                     <Route
                         path="/onboarding"
@@ -91,5 +91,11 @@ const App = () => {
         </div>
     );
 };
+
+const App = () => (
+    <Router>
+        <AppContent />
+    </Router>
+);
 
 export default App;
