@@ -142,4 +142,3 @@ const Account = () => {
 };
 
 export default Account;
-Kinder
