@@ -8,7 +8,11 @@ const RAW_API_KEY = import.meta.env.VITE_GEMINI_API_KEY?.trim();
 const API_KEY = (RAW_API_KEY && !RAW_API_KEY.includes('VITE_GEMINI_API_KEY')) ? RAW_API_KEY : null;
 
 if (!API_KEY) {
-    console.error("❌ Gemini API Key is missing or invalid! Check your .env or Vercel Environment Variables.");
+    console.error("❌ Gemini API Key is missing or invalid!", {
+        rawExists: !!RAW_API_KEY,
+        isPlaceholder: RAW_API_KEY?.includes('VITE_GEMINI_API_KEY'),
+        keyLength: RAW_API_KEY?.length
+    });
 }
 
 const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
