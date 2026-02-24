@@ -31,4 +31,3 @@ export const logger = {
         if (isDebug) console.debug(...args);
     }
 };
-Kinder
