@@ -1,15 +1,29 @@
 import React from 'react';
 import { useFortune } from '../../context/FortuneContext';
-import { Clock, ChevronRight } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { Clock, ChevronRight, Share2, LogIn } from 'lucide-react';
 import './History.css';
 
 const History = () => {
     const { history, t } = useFortune();
+    const { user } = useAuth();
 
     return (
         <div className="history-container fade-in">
             <h2 className="gold-text">{t.history.title}</h2>
             <p className="description">{t.history.desc}</p>
+
+            {!user && (
+                <div className="auth-cta-banner glass-panel">
+                    <div className="cta-icon">
+                        <LogIn className="icon-gold" />
+                    </div>
+                    <div className="cta-content">
+                        <h3>Save Your Destiny Forever</h3>
+                        <p>Sign in to sync your fortunes across all your devices and never lose a reading.</p>
+                    </div>
+                </div>
+            )}
 
             <div className="history-list">
                 {history.length === 0 ? (

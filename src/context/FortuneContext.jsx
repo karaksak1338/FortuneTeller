@@ -1,9 +1,12 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { TRANSLATIONS } from '../services/translations';
+import { supabase } from '../services/supabase';
+import { useAuth } from './AuthContext';
 
 const FortuneContext = createContext();
 
 export const FortuneProvider = ({ children }) => {
+    const { user } = useAuth();
     const [userData, setUserData] = useState(() => {
         const saved = localStorage.getItem('fortune_user_data');
         return saved ? JSON.parse(saved) : {
@@ -29,6 +32,25 @@ export const FortuneProvider = ({ children }) => {
 
     const t = TRANSLATIONS[userData.language] || TRANSLATIONS.en;
 
+    // Load history from Supabase on login
+    useEffect(() => {
+        const fetchSupabaseHistory = async () => {
+            if (user) {
+                const { data, error } = await supabase
+                    .from('fortunes')
+                    .select('*')
+                    .order('date', { ascending: false });
+
+                if (data && !error) {
+                    // Merge Supabase history with local history (prioritize Supabase)
+                    setHistory(data);
+                }
+            }
+        };
+
+        fetchSupabaseHistory();
+    }, [user]);
+
     useEffect(() => {
         localStorage.setItem('fortune_user_data', JSON.stringify(userData));
     }, [userData]);
@@ -45,8 +67,29 @@ export const FortuneProvider = ({ children }) => {
         setUserData(prev => ({ ...prev, ...data }));
     };
 
-    const addFortuneToHistory = (fortune) => {
+    const addFortuneToHistory = async (fortune) => {
+        // 1. Update Local State
         setHistory(prev => [fortune, ...prev]);
+
+        // 2. Sync to Supabase if authenticated
+        if (user) {
+            try {
+                const { error } = await supabase
+                    .from('fortunes')
+                    .insert([
+                        {
+                            user_id: user.id,
+                            type: fortune.type,
+                            text: fortune.text,
+                            date: new Date(fortune.date).toISOString()
+                        }
+                    ]);
+
+                if (error) throw error;
+            } catch (err) {
+                console.error("Failed to sync fortune to Supabase:", err.message);
+            }
+        }
     };
 
     return (
