@@ -3,7 +3,14 @@ import { fallbackManager } from './fallbackManager';
 import { TRANSLATIONS } from './translations';
 
 // Initialize Gemini AI
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY?.trim();
+const RAW_API_KEY = import.meta.env.VITE_GEMINI_API_KEY?.trim();
+// Failsafe: Ensure the key isn't a placeholder string or missing
+const API_KEY = (RAW_API_KEY && !RAW_API_KEY.includes('VITE_GEMINI_API_KEY')) ? RAW_API_KEY : null;
+
+if (!API_KEY) {
+    console.error("❌ Gemini API Key is missing or invalid! Check your .env or Vercel Environment Variables.");
+}
+
 const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
 
 const getPersona = (lang, personaType) => {
