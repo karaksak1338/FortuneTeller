@@ -36,12 +36,14 @@ const AuthModal = ({ isOpen, onClose, isGate = false }) => {
             if (authError) {
                 if (authError.message.includes('already registered')) {
                     setError('You already have an account! Did you forget your password?');
+                } else if (authError.status === 429) {
+                    setError('The universe is busy! Please wait a moment before trying again.');
                 } else {
                     throw authError;
                 }
                 return;
             }
-            onClose();
+            onClose?.();
         } catch (err) {
             setError(err.message);
         } finally {
