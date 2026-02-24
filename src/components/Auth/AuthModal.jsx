@@ -72,7 +72,7 @@ const AuthModal = ({ isOpen, onClose, isGate = false }) => {
                 <h2>{isForgot ? 'Recover Key' : (isSignUp ? 'Join the Order' : 'Welcome Back')}</h2>
                 <p className="auth-subtitle">
                     {isForgot
-                        ? 'Enter your email to reset your secret key'
+                        ? 'Enter your email to reset your password'
                         : (isSignUp ? 'Create an account to save your destiny' : 'Sign in to access your mystical history')
                     }
                 </p>
@@ -94,7 +94,7 @@ const AuthModal = ({ isOpen, onClose, isGate = false }) => {
 
                     {!isForgot && (
                         <div className="auth-input-group">
-                            <label>Secret Key (Password)</label>
+                            <label>Password</label>
                             <input
                                 type="password"
                                 placeholder="••••••••"

@@ -21,7 +21,7 @@ const Account = () => {
         try {
             const { error } = await updatePassword(newPassword);
             if (error) throw error;
-            setMessage({ type: 'success', text: 'Secret key updated successfully!' });
+            setMessage({ type: 'success', text: 'Password updated successfully!' });
             setNewPassword('');
         } catch (err) {
             setMessage({ type: 'error', text: err.message });
@@ -69,21 +69,21 @@ const Account = () => {
                         <Shield className="gold-text" size={20} />
                         <h2>Security</h2>
                     </div>
-                    <p className="section-desc">Update your secret key directly without a back-and-forth flow.</p>
+                    <p className="section-desc">Update your password directly without a back-and-forth flow.</p>
 
                     <form onSubmit={handlePasswordUpdate} className="account-form">
                         <div className="input-group">
-                            <label>New Secret Key</label>
+                            <label>New Password</label>
                             <input
                                 type="password"
-                                placeholder="Enter new key"
+                                placeholder="Enter new password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 required
                             />
                         </div>
                         <button className="mystic-button" disabled={loading || !newPassword}>
-                            {loading ? 'Consulting the stars...' : 'Update Secret Key'}
+                            {loading ? 'Consulting the stars...' : 'Update Password'}
                         </button>
                     </form>
                 </section>
