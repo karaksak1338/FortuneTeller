@@ -1,6 +1,6 @@
 export const TRANSLATIONS = {
     en: {
-        appName: "Mystic Oracle",
+        appName: "MysticFortuneTeller",
         nav: { home: "Home", history: "History" },
         footer: "For entertainment purposes only",
         common: {
@@ -47,7 +47,7 @@ export const TRANSLATIONS = {
         }
     },
     tr: {
-        appName: "Mistik Falcı",
+        appName: "MysticFortuneTeller",
         nav: { home: "Ana Sayfa", history: "Geçmiş" },
         footer: "Sadece eğlence amaçlıdır",
         common: {
@@ -94,7 +94,7 @@ export const TRANSLATIONS = {
         }
     },
     de: {
-        appName: "Mystisches Orakel",
+        appName: "MysticFortuneTeller",
         nav: { home: "Startseite", history: "Verlauf" },
         footer: "Nur zu Unterhaltungszwecken",
         common: {

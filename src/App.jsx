@@ -98,7 +98,7 @@ const AppContent = () => {
             </main>
 
             <footer className="main-footer">
-                &copy; 2026 {t.common?.appName || 'Fortune Teller'} • {t.footer || 'Developed with Magic'}
+                &copy; 2026 {t.common?.appName || 'MysticFortuneTeller'} • {t.footer || 'Developed with Magic'}
             </footer>
 
             <AuthModal
