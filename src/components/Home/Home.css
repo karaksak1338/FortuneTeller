@@ -1,0 +1,127 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.focus-block {
+    padding: 2rem;
+    text-align: center;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(26, 18, 46, 0.8), rgba(123, 79, 182, 0.2));
+    border: 1px solid rgba(201, 168, 106, 0.3);
+}
+
+.block-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: var(--accent-gold);
+    margin-bottom: 1.5rem;
+}
+
+.fortune-text {
+    font-size: 1.4rem;
+    font-family: var(--font-mystic);
+    line-height: 1.4;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.streak-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201, 168, 106, 0.15);
+    color: var(--accent-gold);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--glass-border);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+}
+
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent);
+}
+
+.thematic-section h3 {
+    font-family: var(--font-mystic);
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.thematic-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.thematic-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.8rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.thematic-chip:hover {
+    background: rgba(123, 79, 182, 0.3);
+}
+
+.journey-indicator {
+    text-align: center;
+    opacity: 0.8;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 480px) {
+    .thematic-grid {
+        grid-template-columns: 1fr;
+    }
+}
