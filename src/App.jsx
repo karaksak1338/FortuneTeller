@@ -15,7 +15,9 @@ const AppContent = () => {
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
     // If onboarding not completed, redirect to onboarding (except if already there)
-    const showOnboarding = !userData.onboarded && location.pathname !== '/onboarding';
+    if (!userData.onboarded && location.pathname !== '/onboarding') {
+        return <Navigate to="/onboarding" replace />;
+    }
 
     return (
         <div className="app-container">

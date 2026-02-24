@@ -36,15 +36,21 @@ export const FortuneProvider = ({ children }) => {
     useEffect(() => {
         const fetchSupabaseHistory = async () => {
             if (user) {
+                // Clear state first to avoid showing previous user's data
+                setHistory([]);
+
                 const { data, error } = await supabase
                     .from('fortunes')
                     .select('*')
                     .order('date', { ascending: false });
 
                 if (data && !error) {
-                    // Merge Supabase history with local history (prioritize Supabase)
                     setHistory(data);
                 }
+            } else {
+                // When logged out, show the anonymous local history
+                const saved = localStorage.getItem('fortune_history');
+                setHistory(saved ? JSON.parse(saved) : []);
             }
         };
 
@@ -56,8 +62,11 @@ export const FortuneProvider = ({ children }) => {
     }, [userData]);
 
     useEffect(() => {
-        localStorage.setItem('fortune_history', JSON.stringify(history));
-    }, [history]);
+        // Only save to local storage if user is anonymous (to avoid mixing accounts)
+        if (!user) {
+            localStorage.setItem('fortune_history', JSON.stringify(history));
+        }
+    }, [history, user]);
 
     useEffect(() => {
         localStorage.setItem('fortune_streak', JSON.stringify(streak));
