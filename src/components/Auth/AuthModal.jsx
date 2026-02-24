@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import './AuthModal.css';
 
-const AuthModal = ({ isOpen, onClose }) => {
+const AuthModal = ({ isOpen, onClose, isGate = false }) => {
     const [isSignUp, setIsSignUp] = useState(false);
     const [isForgot, setIsForgot] = useState(false);
     const [email, setEmail] = useState('');
@@ -59,11 +59,13 @@ const AuthModal = ({ isOpen, onClose }) => {
     };
 
     return (
-        <div className="auth-modal-overlay">
+        <div className={`auth-modal-overlay ${isGate ? 'gate-mode' : ''}`}>
             <div className="auth-modal">
-                <button className="close-auth" onClick={onClose}>
-                    <X size={24} />
-                </button>
+                {!isGate && (
+                    <button className="close-auth" onClick={onClose}>
+                        <X size={24} />
+                    </button>
+                )}
 
                 <h2>{isForgot ? 'Recover Key' : (isSignUp ? 'Join the Order' : 'Welcome Back')}</h2>
                 <p className="auth-subtitle">

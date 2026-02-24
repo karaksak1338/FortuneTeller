@@ -14,10 +14,19 @@ const AppContent = () => {
     const { userData, t, updateUserData } = useFortune();
     const { user, signOut } = useAuth();
     const location = useLocation();
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
-    // If onboarding not completed, redirect to onboarding (except if already there)
-    if (!userData.onboarded && location.pathname !== '/onboarding') {
+    // 1. Mandatory Login Gate (except for password reset)
+    if (!user && location.pathname !== '/reset-password') {
+        return (
+            <div className="login-gate-container">
+                <AuthModal isOpen={true} isGate={true} />
+            </div>
+        );
+    }
+
+    // 2. Forced Onboarding (only after login)
+    const isActuallyOnboarded = user?.user_metadata?.onboarded || userData.onboarded;
+    if (user && !isActuallyOnboarded && location.pathname !== '/onboarding') {
         return <Navigate to="/onboarding" replace />;
     }
 
@@ -50,7 +59,7 @@ const AppContent = () => {
                             <HistoryIcon size={20} />
                         </Link>
 
-                        {user ? (
+                        {user && (
                             <>
                                 <Link to="/account" className={`nav-link ${location.pathname === '/account' ? 'active' : ''}`}>
                                     <User size={20} />
@@ -59,10 +68,6 @@ const AppContent = () => {
                                     <LogOut size={20} />
                                 </button>
                             </>
-                        ) : (
-                            <button className="auth-nav-btn login" onClick={() => setIsAuthModalOpen(true)} title="Sign In">
-                                <User size={20} />
-                            </button>
                         )}
                     </nav>
                 </div>
@@ -100,11 +105,6 @@ const AppContent = () => {
             <footer className="main-footer">
                 &copy; 2026 {t.common?.appName || 'MysticFortuneTeller'} • {t.footer || 'Developed with Magic'}
             </footer>
-
-            <AuthModal
-                isOpen={isAuthModalOpen}
-                onClose={() => setIsAuthModalOpen(false)}
-            />
         </div>
     );
 };

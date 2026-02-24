@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useFortune } from '../../context/FortuneContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Moon, Sun, ArrowRight, Languages } from 'lucide-react';
 import './Onboarding.css';
 
 const Onboarding = () => {
-    const { updateUserData, t } = useFortune();
+    const { userData, updateUserData, t } = useFortune();
+    const { updateProfile } = useAuth();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: '',
@@ -18,6 +20,7 @@ const Onboarding = () => {
     const handleNext = () => {
         if (step === 4) {
             updateUserData({ ...formData, onboarded: true });
+            updateProfile({ onboarded: true });
             navigate('/home');
         } else {
             setStep(step + 1);
