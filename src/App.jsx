@@ -6,7 +6,9 @@ import { useAuth } from './context/AuthContext';
 import Onboarding from './components/Onboarding/Onboarding';
 import Home from './components/Home/Home';
 import History from './components/History/History';
+import Account from './components/Account/Account';
 import AuthModal from './components/Auth/AuthModal';
+import ResetPassword from './components/Auth/ResetPassword';
 
 const AppContent = () => {
     const { userData, t, updateUserData } = useFortune();
@@ -49,9 +51,14 @@ const AppContent = () => {
                         </Link>
 
                         {user ? (
-                            <button className="auth-nav-btn logout" onClick={() => signOut()} title="Sign Out">
-                                <LogOut size={20} />
-                            </button>
+                            <>
+                                <Link to="/account" className={`nav-link ${location.pathname === '/account' ? 'active' : ''}`}>
+                                    <User size={20} />
+                                </Link>
+                                <button className="auth-nav-btn logout" onClick={() => signOut()} title="Sign Out">
+                                    <LogOut size={20} />
+                                </button>
+                            </>
                         ) : (
                             <button className="auth-nav-btn login" onClick={() => setIsAuthModalOpen(true)} title="Sign In">
                                 <User size={20} />
@@ -78,6 +85,14 @@ const AppContent = () => {
                     <Route
                         path="/history"
                         element={<History />}
+                    />
+                    <Route
+                        path="/account"
+                        element={<Account />}
+                    />
+                    <Route
+                        path="/reset-password"
+                        element={<ResetPassword />}
                     />
                 </Routes>
             </main>

@@ -23,16 +23,35 @@ export const AuthProvider = ({ children }) => {
         return () => subscription.unsubscribe();
     }, []);
 
-    const signUp = (email, password) => supabase.auth.signUp({ email, password });
+    const signUp = (email, password) => supabase.auth.signUp({
+        email,
+        password,
+        options: {
+            data: { plan: 'free' } // Default plan
+        }
+    });
+
     const signIn = (email, password) => supabase.auth.signInWithPassword({ email, password });
+
     const signOut = () => supabase.auth.signOut();
+
+    const resetPasswordForEmail = (email) => supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+    });
+
+    const updatePassword = (newPassword) => supabase.auth.updateUser({ password: newPassword });
+
+    const updateProfile = (data) => supabase.auth.updateUser({ data });
 
     const value = {
         user,
         loading,
         signUp,
         signIn,
-        signOut
+        signOut,
+        resetPasswordForEmail,
+        updatePassword,
+        updateProfile
     };
 
     return (
