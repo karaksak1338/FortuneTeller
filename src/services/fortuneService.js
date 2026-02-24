@@ -3,16 +3,10 @@ import { fallbackManager } from './fallbackManager';
 import { TRANSLATIONS } from './translations';
 
 // Initialize Gemini AI
-const RAW_API_KEY = import.meta.env.VITE_GEMINI_API_KEY?.trim();
-// Failsafe: Ensure the key isn't a placeholder string or missing
-const API_KEY = (RAW_API_KEY && !RAW_API_KEY.includes('VITE_GEMINI_API_KEY')) ? RAW_API_KEY : null;
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY?.trim();
 
 if (!API_KEY) {
-    console.error("❌ Gemini API Key is missing or invalid!", {
-        rawExists: !!RAW_API_KEY,
-        isPlaceholder: RAW_API_KEY?.includes('VITE_GEMINI_API_KEY'),
-        keyLength: RAW_API_KEY?.length
-    });
+    console.warn("⚠️ Gemini API Key is not configured. Falling back to mystical intuition (offline mode).");
 }
 
 const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
@@ -32,8 +26,6 @@ export const generateAIFortune = async ({ type, input, image, lang = 'en', perso
     const p = getPersona(lang, persona);
 
     // Layer 1: Attempt Gemini AI via direct Fetch (v1 stable)
-    console.log(`Starting AI Generation (Fetch) - Type: ${type}, Lang: ${lang}, Persona: ${persona}, HasImage: ${!!image}`);
-
     if (API_KEY) {
         try {
             let prompt = `
@@ -56,8 +48,6 @@ export const generateAIFortune = async ({ type, input, image, lang = 'en', perso
             } else if (type === 'question' && input) {
                 prompt += `\n- Additional Input (Question): ${input}`;
             }
-
-            console.log("AI Prompt:", prompt);
 
             const contents = [{
                 parts: [{ text: prompt }]
@@ -99,21 +89,17 @@ export const generateAIFortune = async ({ type, input, image, lang = 'en', perso
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                console.error("Gemini API Error details:", errorData);
                 throw new Error(`Gemini API Error: ${response.status} - ${errorData?.error?.message || response.statusText}`);
             }
 
             const data = await response.json();
             const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-            console.log("AI Response Received:", text);
 
             if (text && text.trim().length > 0) {
                 return text;
-            } else {
-                console.warn("AI returned empty text.");
             }
         } catch (error) {
-            console.error("AI Generation Error (Fetch):", error.message);
+            console.error("AI Generation Error:", error.message);
         }
     }
 
